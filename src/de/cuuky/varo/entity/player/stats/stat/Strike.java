@@ -3,6 +3,7 @@ package de.cuuky.varo.entity.player.stats.stat;
 import java.util.Date;
 
 import org.apache.commons.lang.time.DateUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 
 import de.cuuky.varo.Main;
@@ -125,16 +126,20 @@ public class Strike implements VaroSerializeable {
 			if (striked.getStats().getLastLocation() == null) {
 				Location loc = Main.getVaroGame().getVaroWorldHandler().getMainWorld().getWorld().getSpawnLocation();
 				Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.STRIKE, ConfigMessages.ALERT_FIRST_STRIKE_NEVER_ONLINE.getValue(striked, striked).replace("%pos%", "X:" + loc.getBlockX() + ", Y:" + loc.getBlockY() + ", Z:" + loc.getBlockZ() + " & world: " + loc.getWorld().getName()).replace("%reason%", reason).replace("%striker%", striker));
+				Bukkit.broadcastMessage("Because of a Strike here are the Coordinates of "+this.striked.getName()+": X:" + loc.getBlockX() + ", Y:" + loc.getBlockY() + ", Z:" + loc.getBlockZ() + " & world: " + loc.getWorld().getName() + "[Player was never Online!]");
 			} else {
 				Location loc = striked.isOnline() ? striked.getPlayer().getLocation() : striked.getStats().getLastLocation();
 				Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.STRIKE, ConfigMessages.ALERT_FIRST_STRIKE.getValue(striked, striked).replace("%pos%", "X:" + loc.getBlockX() + ", Y:" + loc.getBlockY() + ", Z:" + loc.getBlockZ() + " & world: " + loc.getWorld().getName()).replace("%reason%", reason).replace("%striker%", striker));
+				Bukkit.broadcastMessage("Because of a Strike here are the Coordinates of "+this.striked.getName()+": X:" + loc.getBlockX() + ", Y:" + loc.getBlockY() + ", Z:" + loc.getBlockZ() + " & world: " + loc.getWorld().getName());
 			}
 			break;
 		case 2:
 			Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.STRIKE, ConfigMessages.ALERT_SECOND_STRIKE.getValue(striked, striked).replace("%reason%", reason).replace("%striker%", striker));
+			Bukkit.broadcastMessage("Because of a Strike "+this.striked.getName()+"'s Inventory was cleared!");
 			break;
 		case 3:
 			Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.STRIKE, ConfigMessages.ALERT_THRID_STRIKE.getValue(striked, striked).replace("%reason%", reason).replace("%striker%", striker));
+			Bukkit.broadcastMessage("Because of a Strike "+this.striked.getName()+" has been disqualified from the Game!");
 			break;
 		default:
 			Main.getDataManager().getVaroLoggerManager().getEventLogger().println(LogType.STRIKE, ConfigMessages.ALERT_GENERAL_STRIKE.getValue(striked, striked).replace("%strikeNumber%", String.valueOf(number)).replace("%reason%", reason).replace("%striker%", striker));

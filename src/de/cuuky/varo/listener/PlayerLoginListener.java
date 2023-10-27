@@ -86,7 +86,7 @@ public class PlayerLoginListener implements Listener {
 		if (!kickResult.allowsJoin())
 			if ((player.hasPermission("varo.alwaysjoin") && ConfigSetting.IGNORE_JOINSYSTEMS_AS_OP.getValueAsBoolean()) || (!Main.getVaroGame().hasStarted() && player.isOp())) {
 				if (Main.getVaroGame().hasStarted()) {
-					if (!vp.isRegistered()) {
+					if (!vp.isRegistered() && !player.isOp()) {
 						vp.register();
 						vp.getStats().setState(PlayerState.SPECTATOR);
 					} else
@@ -148,7 +148,7 @@ public class PlayerLoginListener implements Listener {
 		case MASS_RECORDING_JOIN:
 		case FINALE_JOIN:
 		default:
-			if (!vp.isRegistered())
+			if (!vp.isRegistered() && !player.isOp())
 				vp.register();
 			break;
 		}
